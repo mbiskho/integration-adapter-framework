@@ -1,0 +1,18 @@
+checkpoint_file: .checkpoints-acme.json
+adapters:
+  acme_crm:
+    type: rest_crm
+    base_url: https://api.crm.example.com
+    rate_per_second: 4                # their published limit is 5/s; stay under it
+    auth:
+      type: oauth2_client_credentials
+      token_url: https://api.crm.example.com/oauth/token
+      client_id: platform-integration
+    client_secret_env: ACME_CRM_CLIENT_SECRET
+  acme_erp:
+    type: sftp_csv
+    host: sftp.acme.example.com
+    username: platform
+    password_env: ACME_SFTP_PASSWORD
+    folder: /outbound/customers
+    columns: { id: "CUST_NO", name: "CUST_NAME", country: "CTRY", credit_limit: "CR_LIMIT" }
